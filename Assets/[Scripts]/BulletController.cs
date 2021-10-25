@@ -2,7 +2,7 @@
 /// BulletController.cs
 /// Justin Dela Cruz
 /// 101127646
-/// Last Modified: 2021-10-22
+/// Last Modified: 2021-10-24
 /// This .cs file is to...
 //////////////////////////////
 
@@ -37,7 +37,7 @@ public class BulletController : MonoBehaviour, IApplyDamage
 
     private void _CheckBounds()
     {
-        if (transform.position.y > verticalBoundary)
+        if (transform.position.x > verticalBoundary)
         {
             bulletManager.ReturnBullet(gameObject);
         }

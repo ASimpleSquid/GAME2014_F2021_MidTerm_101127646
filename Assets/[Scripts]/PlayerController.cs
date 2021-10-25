@@ -2,8 +2,9 @@
 /// PlayerController.cs
 /// Justin Dela Cruz
 /// 101127646
-/// Last Modified: 2021-10-22
-/// This .cs file is to...
+/// Last Modified: 2021-10-24
+/// This .cs file is to check the bounds for the player
+/// as well as control them
 //////////////////////////////
 
 using System.Collections;
@@ -16,13 +17,14 @@ public class PlayerController : MonoBehaviour
 {
     public BulletManager bulletManager;
 
+    //change horizontal to vertical for movement
     [Header("Boundary Check")]
-    public float horizontalBoundary;
+    public float verticalBoundary;
 
     [Header("Player Speed")]
-    public float horizontalSpeed;
+    public float verticalSpeed;
     public float maxSpeed;
-    public float horizontalTValue;
+    public float verticalTValue;
 
     [Header("Bullet Firing")]
     public float fireDelay;
@@ -64,13 +66,13 @@ public class PlayerController : MonoBehaviour
         {
             var worldTouch = Camera.main.ScreenToWorldPoint(touch.position);
 
-            if (worldTouch.x > transform.position.x)
+            if (worldTouch.x > transform.position.y)
             {
                 // direction is positive
                 direction = 1.0f;
             }
 
-            if (worldTouch.x < transform.position.x)
+            if (worldTouch.x < transform.position.y)
             {
                 // direction is negative
                 direction = -1.0f;
@@ -95,11 +97,11 @@ public class PlayerController : MonoBehaviour
 
         if (m_touchesEnded.x != 0.0f)
         {
-           transform.position = new Vector2(Mathf.Lerp(transform.position.x, m_touchesEnded.x, horizontalTValue), transform.position.y);
+           transform.position = new Vector2(Mathf.Lerp(transform.position.x, m_touchesEnded.x, verticalTValue), transform.position.y);
         }
         else
         {
-            Vector2 newVelocity = m_rigidBody.velocity + new Vector2(direction * horizontalSpeed, 0.0f);
+            Vector2 newVelocity = m_rigidBody.velocity + new Vector2(direction * verticalSpeed, 0.0f);
             m_rigidBody.velocity = Vector2.ClampMagnitude(newVelocity, maxSpeed);
             m_rigidBody.velocity *= 0.99f;
         }
@@ -108,15 +110,15 @@ public class PlayerController : MonoBehaviour
     private void _CheckBounds()
     {
         // check right bounds
-        if (transform.position.x >= horizontalBoundary)
+        if (transform.position.y >= verticalBoundary)
         {
-            transform.position = new Vector3(horizontalBoundary, transform.position.y, 0.0f);
+            transform.position = new Vector3(verticalBoundary, transform.position.x, 0.0f);
         }
 
         // check left bounds
-        if (transform.position.x <= -horizontalBoundary)
+        if (transform.position.y <= -verticalBoundary)
         {
-            transform.position = new Vector3(-horizontalBoundary, transform.position.y, 0.0f);
+            transform.position = new Vector3(-verticalBoundary, transform.position.x, 0.0f);
         }
 
     }
